@@ -22,20 +22,12 @@ module Twain
       output.join
     end
 
-    def self.get_translation(key)
+    def self.tr(key)
       @@translations.fetch(key.to_sym).sample
     end
 
-    def get(key)
-      respond_to?(key) ? public_send(key) : payload[key.to_sym]
-    end
-
-    def tr(key)
-      self.class.get_translation(key)
-    end
-
-    def generate
-      self.class.build(self)
+    def self.generate
+      build(self)
     end
 
   end

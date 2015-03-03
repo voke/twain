@@ -3,35 +3,32 @@ require 'forwardable'
 module Twain
   class Describer
 
+    attr_reader :subject
     extend Forwardable
 
-    attr_reader :subject
-
-    def initialize(subject, template)
+    def initialize(subject, view_template)
       @subject = subject
-      @template = template
+      @view_template = view_template
     end
 
-    def self.render(subject, template)
-      new(subject, template).compile
+    def __attr(name)
+      if respond_to?(name)
+        public_send(name)
+      elsif subject.is_a?(Hash)
+        subject[name.to_sym]
+      else
+        nil
+      end
     end
 
     def t
-      @template
+      @view_template
     end
 
     def compile(text)
-      text.gsub(/%\{(\w*)\}/) { |match| get_attribute(match[2..-2]) }
-    end
-
-    def get_attribute(attr_name)
-      if subject.respond_to?(attr_name)
-        subject.attr_name
-      elsif subject.is_a?(Hash)
-        subject[attr_name.to_sym]
-      else
-        public_send(attr_name)
-      end
+      template = Liquid::Template.parse(text)
+      output = template.render(Proxy.new(self))
+      output.gsub("\n",'').squeeze(" ").strip # NOTE: Clean up
     end
 
   end

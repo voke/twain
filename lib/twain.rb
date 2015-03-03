@@ -10,7 +10,6 @@ Liquid::Template.register_filter(Twain::FetchFilter)
 
 require 'twain/describer'
 require 'twain/paragraph'
-require 'twain/paragraph_set'
 require 'twain/builder'
 require 'twain/proxy'
 

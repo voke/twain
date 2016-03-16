@@ -27,6 +27,10 @@ module Twain
       output.join
     end
 
+    def self.raw
+      paragraphs.map(&:text).join
+    end
+
     def self.tr(key)
       translations.fetch(key.to_sym).sample
     end

@@ -35,6 +35,14 @@ module Twain
       translations.fetch(key.to_sym).sample
     end
 
+    def self.generate_params
+      hash = {}
+      translations.keys.each do |key|
+        hash[key] = tr(key)
+      end
+      hash
+    end
+
     def self.generate
       build(self)
     end

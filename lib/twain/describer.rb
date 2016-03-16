@@ -25,12 +25,10 @@ module Twain
       @view_template
     end
 
-    def __output
-      @__output ||= Liquid::Template.parse(text).render(Proxy.new(self))
-    end
-
     def compile(text)
-      __output.gsub("\n",'').squeeze(" ").strip # NOTE: Clean up
+      template = Liquid::Template.parse(text)
+      output = template.render(Proxy.new(self))
+      output.gsub("\n",'').squeeze(" ").strip # NOTE: Clean up
     end
 
   end

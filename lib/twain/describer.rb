@@ -27,8 +27,11 @@ module Twain
 
     def compile(text)
       template = Liquid::Template.parse(text)
-      output = template.render(Proxy.new(self))
-      output.gsub("\n",'').squeeze(" ").strip # NOTE: Clean up
+      template.render(Proxy.new(self))
+    end
+
+    def render(text)
+      compile(text).gsub("\n",'').squeeze(" ").strip
     end
 
   end

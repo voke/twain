@@ -8,6 +8,10 @@ module Twain
       self.subject = text
     end
 
+    def sanitized
+      text.gsub("\n",'').squeeze(" ").strip
+    end
+
     def compile(subject)
       text.gsub(/\*\*(\w*)\*\*/) { |match| subject.tr(match[2..-3]) }
     end
